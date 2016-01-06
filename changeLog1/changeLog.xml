@@ -11,6 +11,7 @@
         <runningAs username="BIODATA" />
     </preConditions>
 
+    <include file="dbLinks.sql" relativeToChangelogFile="true"/>
     <include file="tables.sql" relativeToChangelogFile="true"/>
     <include file="grants.sql" relativeToChangelogFile="true"/>
 
