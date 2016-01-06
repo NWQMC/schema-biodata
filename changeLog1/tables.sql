@@ -428,32 +428,6 @@ create table taxon_wide
 ) parallel 4 compress pctfree 0 nologging;
 --rollback drop table taxon_wide cascade constraints purge;
 
---changeset drsteini:WQP_740_nwis_sitefile
-create table nwis_sitefile
-(agency_cd						varchar2(5 char)
-,site_no						varchar2(15 char)
-,nwis_host_nm					varchar2(14 char)
-,db_no							varchar2(2 char)
-,station_nm						varchar2(50 char)
-,dec_lat_va						number
-,dec_long_va					number
-,lat_va							varchar2(11 char)
-,long_va						varchar2(12 char)
-,site_web_cd					varchar2(1 char)
-,coord_datum_cd					varchar2(10 char)
-,huc_cd							varchar2(16 char)
-,alt_va							varchar2(8 char)
-,alt_datum_cd					varchar2(10 char)
-,drain_area_va					varchar2(8 char)
-,state_cd						varchar2(2 char)
-,county_cd						varchar2(3 char)
-,country_cd						varchar2(2 char)
-,site_tp_cd						varchar2(7 char)
-,tz_cd							varchar2(6 char)
-,local_time_fg					varchar2(1 char)
-);
---rollback drop table nwis_sitefile cascade constraints purge;
-
 --changeset drsteini:WQP_740_biodata_site_created
 alter table biodata_site add (created_date date);
 --rollback alter table biodata_site drop column created_date;
