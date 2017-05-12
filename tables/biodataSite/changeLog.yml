@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.biodata_site"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: biodata_site
+      changes:
+        - sqlFile:
+            path: biodataSite.sql
+            relativeToChangelogFile: true
+        - rollback: drop table biodata_site cascade constraints purge;

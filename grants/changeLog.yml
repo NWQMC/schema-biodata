@@ -1,0 +1,100 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.biodata_site.wqp_core"
+      changes:
+        - sql:
+            sql: grant select on biodata_site to wqp_core;
+        - rollback: revoke select on biodata_site from wqp_core;
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.effort.wqp_core"
+      changes:
+        - sql:
+            sql: grant select on effort to wqp_core;
+        - rollback: revoke select on effort from wqp_core;
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.nawqa_study_unit.wqp_core"
+      changes:
+        - sql:
+            sql: grant select on nawqa_study_unit to wqp_core;
+        - rollback: revoke select on nawqa_study_unit from wqp_core;
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.program.wqp_core"
+      changes:
+        - sql:
+            sql: grant select on program to wqp_core;
+        - rollback: revoke select on program from wqp_core;
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.program_project.wqp_core"
+      changes:
+        - sql:
+            sql: grant select on program_project to wqp_core;
+        - rollback: revoke select on program_project from wqp_core;
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.project.wqp_core"
+      changes:
+        - sql:
+            sql: grant select on project to wqp_core;
+        - rollback: revoke select on project from wqp_core;
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.reach.wqp_core"
+      changes:
+        - sql:
+            sql: grant select on reach to wqp_core;
+        - rollback: revoke select on reach from wqp_core;
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.sample.wqp_core"
+      changes:
+        - sql:
+            sql: grant select on sample to wqp_core;
+        - rollback: revoke select on sample from wqp_core;
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.sample_type.wqp_core"
+      changes:
+        - sql:
+            sql: grant select on sample_type to wqp_core;
+        - rollback: revoke select on sample_type from wqp_core;
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.science_center.wqp_core"
+      changes:
+        - sql:
+            sql: grant select on science_center to wqp_core;
+        - rollback: revoke select on science_center from wqp_core;
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.taxonomic_result.wqp_core"
+      changes:
+        - sql:
+            sql: grant select on taxonomic_result to wqp_core;
+        - rollback: revoke select on taxonomic_result from wqp_core;
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.taxon_wide.wqp_core"
+      changes:
+        - sql:
+            sql: grant select on taxon_wide to wqp_core;
+        - rollback: revoke select on taxon_wide from wqp_core;
