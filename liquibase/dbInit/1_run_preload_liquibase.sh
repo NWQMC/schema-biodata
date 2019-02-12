@@ -43,7 +43,7 @@ ${LIQUIBASE_HOME}/liquibase \
 	--username=${BIODATA_OWNER} \
 	--password=${BIODATA_OWNER_PASSWORD} \
 	--logLevel=debug \
-	updateTestingRollback \
+	update \
 	-DBIODATA_OWNER=${BIODATA_OWNER} \
 	-DBIODATA_SCHEMA_NAME=${BIODATA_SCHEMA_NAME} \
 	-DWQP_CORE_OWNER=${WQP_CORE_OWNER} \
