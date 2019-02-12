@@ -19,7 +19,7 @@ ${LIQUIBASE_HOME}/liquibase \
 	-DWQP_CORE_OWNER_PASSWORD=${WQP_CORE_OWNER_PASSWORD} \
 	 > $LIQUIBASE_HOME/logs/liquibasePostgres.log
 
-# postgres to pubs db scripts
+# postgres to wqp/biodata scripts
 ${LIQUIBASE_HOME}/liquibase \
 	--classpath=${LIQUIBASE_HOME}/lib/${JDBC_JAR} \
 	--changeLogFile=${LIQUIBASE_WORKSPACE}/postgres/wqp/changeLog.yml \

@@ -1,7 +1,7 @@
 # schema\-biodata
 
 
-Liquibase scripts for creating the BIODATA\_STEWARDS database schema objects in a Postgres database. 
+Liquibase scripts for creating the BIODATA database schema objects in a Postgres database. 
 They are used for the Water Quality Portal (WQP). The repo also includes Docker Compose scripts to setup a continuous
 integration PostGIS database.
 
