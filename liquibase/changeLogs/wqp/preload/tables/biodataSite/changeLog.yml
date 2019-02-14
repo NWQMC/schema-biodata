@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+    - runningAs:
+        username: ${BIODATA_OWNER}
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.biodata_site"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: biodata_site
+      changes:
+        - sqlFile:
+            path: biodataSite.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists biodata_site cascade;

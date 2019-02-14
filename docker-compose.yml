@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    image: biodata_db
+    build:
+      context: .
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5434:5432
+    container_name: BIODATA_Database
+
+  liquibase:
+    image: biodata_liquibase
+    build:
+      context: ./liquibase
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - BIODATA_OWNER=${BIODATA_OWNER}
+      - BIODATA_OWNER_PASSWORD=${BIODATA_OWNER_PASSWORD}
+      - BIODATA_DATABASE_NAME=${BIODATA_DATABASE_NAME}
+      - BIODATA_SCHEMA_NAME=${BIODATA_SCHEMA_NAME}
+      - WQP_CORE_OWNER=${WQP_CORE_OWNER}
+      - WQP_CORE_OWNER_PASSWORD=${WQP_CORE_OWNER_PASSWORD}
+    volumes:
+      - ./liquibase/changeLogs:/opt/liquibase/workspace
+      - ./liquibase/logs:/opt/liquibase/logs
+      - ./liquibase/dbInit:/docker-entrypoint-initdb.d

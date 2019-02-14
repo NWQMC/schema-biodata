@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+    - runningAs:
+        username: postgres
+
+  - changeSet:
+      author: mbucknell
+      id: "grants.${BIODATA_OWNER}.to.databasechangelog"
+      changes:
+        - sql: grant select, insert, update, delete on public.databasechangelog to ${BIODATA_OWNER}
+        - rollback: revoke select, insert, update, delete on public.databasechangelog from ${BIODATA_OWNER}
+
+  - changeSet:
+      author: mbucknell
+      id: "grants.${BIODATAS_OWNER}.to.databasechangeloglock"
+      changes:
+        - sql: grant select, insert, update, delete on public.databasechangeloglock to ${BIODATA_OWNER}
+        - rollback: revoke select, insert, update, delete on public.databasechangeloglock from ${BIODATA_OWNER}
+
+  - changeSet:
+      author: mbucknell
+      id: "create.extension.postgis"
+      changes:
+        - sql: create extension if not exists postgis;
+        - rollback: drop extension if exists postgis;
+
+  - changeSet:
+      author: mbucknell
+      id: "create.extension.postgis_topology"
+      changes:
+        - sql: create extension if not exists postgis_topology;
+        - rollback: drop extension if exists postgis_topology;
+
+  - changeSet:
+      author: mbucknell
+      id: "create.extension.fuzzystrmatch"
+      changes:
+        - sql: create extension if not exists fuzzystrmatch;
+        - rollback: drop extension if exists fuzzystrmatch;
+
+  - changeSet:
+      author: mbucknell
+      id: "create.extension.postgis_tiger_geocoder"
+      changes:
+        - sql: create extension if not exists postgis_tiger_geocoder;
+        - rollback: drop extension if exists postgis_tiger_geocoder;
+
+
+  - changeSet:
+      author: mbucknell
+      id: "create.project.schema_${BIODATA_SCHEMA_NAME}"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from pg_namespace where nspname = '${BIODATA_SCHEMA_NAME}';
+      changes:
+        - sql: create schema ${BIODATA_SCHEMA_NAME} authorization ${BIODATA_OWNER};
+        - rollback: drop schema if exists ${BIODATA_SCHEMA_NAME} cascade;

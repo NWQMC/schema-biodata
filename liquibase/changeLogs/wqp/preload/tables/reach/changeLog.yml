@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+    - runningAs:
+        username: ${BIODATA_OWNER}
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.reach"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: reach
+      changes:
+        - sqlFile:
+            path: reach.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists reach cascade;

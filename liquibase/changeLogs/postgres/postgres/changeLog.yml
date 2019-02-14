@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+    - runningAs:
+        username: postgres
+
+  - changeSet:
+      author: mbucknell
+      id: "create.project.owner.role.${BIODATA_OWNER}"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from pg_roles where rolname = '${BIODATA_OWNER}';
+      changes:
+        - sql: create role ${BIODATA_OWNER} with login password '${BIODATA_OWNER_PASSWORD}';
+        - rollback: drop role if exists ${BIODATAOWNER};
+
+  - changeSet:
+      author: mbucknel
+      id: "grant.${BIODATA_OWNER}.to.postgres"
+      changes:
+        - sql: grant ${BIODATA_OWNER} to postgres;
+        - rollback: revoke ${BIODATA_OWNER} from postgres;
+
+  - changeSet:
+      author: mbucknell
+      id: "create.project.owner.role.${WQP_CORE_OWNER}"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from pg_roles where rolname = '${WQP_CORE_OWNER}';
+      changes:
+        - sql: create role ${WQP_CORE_OWNER} with login password '${WQP_CORE_OWNER_PASSWORD}';
+        - rollback: drop role if exists ${WQP_CORE_OWNER};
+
+  - changeSet:
+      author: mbucknell
+      id: "create.project.database.${BIODATA_DATABASE_NAME}"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from pg_database where datname = '${BIODATA_DATABASE_NAME}';
+      runInTransaction: false
+      changes:
+        - sql: create database ${BIODATA_DATABASE_NAME} with owner = ${BIODATA_OWNER};
+        - rollback: drop database if exists ${BIODATA_DATABASE_NAME};
+
+  - changeSet:
+      author: mbucknell
+      id: "alter.database.${BIODATA_DATABASE_NAME}.search_path"
+      changes:
+        - sql: alter database ${BIODATA_DATABASE_NAME} set search_path = "$user", ${BIODATA_OWNER}, public;
+        - rollback: alter database ${BIODATA_DATABASE_NAME} reset search_path;
+
+
