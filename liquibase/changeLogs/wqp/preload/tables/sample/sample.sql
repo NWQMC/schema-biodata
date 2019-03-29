@@ -55,7 +55,7 @@ create unlogged table if not exists ${BIODATA_SCHEMA_NAME}.sample
 ,recog_habitat_other           text
 ,periphyton_abundance_desc     text
 ,recog_algae_taxa              text
-,validation_status             boolean    not null
+,validation_status             character varying(1)    not null
 ,data_release_category         character varying(40)    not null
 ,original_suid                 numeric
 ,sampling_method_reference     text

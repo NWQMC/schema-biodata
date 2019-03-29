@@ -14,6 +14,9 @@ services:
     image: biodata_liquibase
     build:
       context: ./liquibase
+    networks:
+      wqp:
+        ipv4_address: ${LIQUIBASE_IPV4}
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - BIODATA_OWNER=${BIODATA_OWNER}
@@ -22,7 +25,13 @@ services:
       - BIODATA_SCHEMA_NAME=${BIODATA_SCHEMA_NAME}
       - WQP_CORE_OWNER=${WQP_CORE_OWNER}
       - WQP_CORE_OWNER_PASSWORD=${WQP_CORE_OWNER_PASSWORD}
+      - DATABASE_ADDRESS=${DATABASE_ADDRESS}
     volumes:
       - ./liquibase/changeLogs:/opt/liquibase/workspace
       - ./liquibase/logs:/opt/liquibase/logs
       - ./liquibase/dbInit:/docker-entrypoint-initdb.d
+
+networks:
+  wqp:
+    external:
+      name: ${LOCAL_NETWORK_NAME}

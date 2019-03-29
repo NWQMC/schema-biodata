@@ -6,16 +6,16 @@ create unlogged table if not exists ${BIODATA_SCHEMA_NAME}.taxon_wide
 ,reference_code_id              numeric
 ,reference_code                 character varying(100)
 ,concept_state                  character varying(100)
-,bench_taxon_provisional        boolean
-,bench_taxon_hybrid             boolean
+,bench_taxon_provisional        character varying(1)
+,bench_taxon_hybrid             character varying(1)
 ,bench_taxon_bu_id              character varying(300)
 ,bench_taxon_nadedid            character varying(100)
 ,biodata_taxon_id               numeric
 ,biodata_taxon_name             character varying(100)
 ,biodata_common_name            character varying(100)
 ,biodata_short_name             character varying(100)
-,biodata_taxon_provisional      boolean
-,biodata_taxon_hybrid           boolean
+,biodata_taxon_provisional      character varying(1)
+,biodata_taxon_hybrid           character varying(1)
 ,published_taxon_id             numeric
 ,published_sort_order           numeric
 ,published_taxon_level          character varying(50)

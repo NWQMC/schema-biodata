@@ -59,7 +59,7 @@ create unlogged table if not exists ${BIODATA_SCHEMA_NAME}.taxonomic_result
 ,lab_procedure_quantitative     character varying(1)
 ,lab_order_type                 character varying(1)
 ,voucher                        text
-,validation_status              boolean    not null
+,validation_status              character varying(1)    not null
 ,data_release_category          character varying(40)   not null
 ,cells_cm2                      numeric
 ,cells_ml                       numeric

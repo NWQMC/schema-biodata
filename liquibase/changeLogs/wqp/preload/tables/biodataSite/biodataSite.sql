@@ -23,10 +23,10 @@ create unlogged table if not exists ${BIODATA_SCHEMA_NAME}.biodata_site
 ,site_type_cd                   character varying(7)
 ,site_type_long_name            character varying(40)
 ,tz_cd                          character varying(6)
-,local_time_fg                  boolean
+,local_time_fg                  character varying(1)
 ,site_id                        numeric
-,deleted_flag                   boolean
-,biotdb_only                    boolean
+,deleted_flag                   character varying(1)
+,biotdb_only                    character varying(1)
 ,data_release_category          character varying(40)   not null
 ,geo_point                      geometry(point,4269)
 ,eco_na_l1_code                 character varying(30)
