@@ -6,37 +6,57 @@ databaseChangeLog:
         username: postgres
 
   - changeSet:
-      author: mbucknell
-      id: "create.project.owner.role.${BIODATA_OWNER}"
+      author: drsteini
+      id: "create.project.db.owner.role.${BIODATA_DB_OWNER_USERNAME}"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from pg_roles where rolname = '${BIODATA_OWNER}';
+            sql: select count(*) from pg_roles where rolname = '${BIODATA_DB_OWNER_USERNAME}';
       changes:
-        - sql: create role ${BIODATA_OWNER} with login password '${BIODATA_OWNER_PASSWORD}';
-        - rollback: drop role if exists ${BIODATAOWNER};
+        - sql: create role ${BIODATA_DB_OWNER_USERNAME} with login password '${BIODATA_DB_OWNER_PASSWORD}';
+        - rollback: drop role if exists ${BIODATA_DB_OWNER_USERNAME};
 
   - changeSet:
-      author: mbucknel
-      id: "grant.${BIODATA_OWNER}.to.postgres"
+      author: drsteini
+      id: "grant.${BIODATA_DB_OWNER_USERNAME}.to.postgres"
       changes:
-        - sql: grant ${BIODATA_OWNER} to postgres;
-        - rollback: revoke ${BIODATA_OWNER} from postgres;
+        - sql: grant ${BIODATA_DB_OWNER_USERNAME} to postgres;
+        - rollback: revoke ${BIODATA_DB_OWNER_USERNAME} from postgres;
 
   - changeSet:
       author: mbucknell
-      id: "create.project.owner.role.${WQP_CORE_OWNER}"
+      id: "create.project.owner.role.${BIODATA_SCHEMA_OWNER_USERNAME}"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from pg_roles where rolname = '${WQP_CORE_OWNER}';
+            sql: select count(*) from pg_roles where rolname = '${BIODATA_SCHEMA_OWNER_USERNAME}';
       changes:
-        - sql: create role ${WQP_CORE_OWNER} with login password '${WQP_CORE_OWNER_PASSWORD}';
-        - rollback: drop role if exists ${WQP_CORE_OWNER};
+        - sql: create role ${BIODATA_SCHEMA_OWNER_USERNAME} with login password '${BIODATA_SCHEMA_OWNER_PASSWORD}';
+        - rollback: drop role if exists ${BIODATA_SCHEMA_OWNER_USERNAME};
+
+  - changeSet:
+      author: mbucknell
+      id: "grant.${BIODATA_SCHEMA_OWNER_USERNAME}.to.postgres"
+      changes:
+        - sql: grant ${BIODATA_SCHEMA_OWNER_USERNAME} to postgres;
+        - rollback: revoke ${BIODATA_SCHEMA_OWNER_USERNAME} from postgres;
+
+  - changeSet:
+      author: mbucknell
+      id: "create.project.owner.role.${WQP_SCHEMA_OWNER_USERNAME}"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from pg_roles where rolname = '${WQP_SCHEMA_OWNER_USERNAME}';
+      changes:
+        - sql: create role ${WQP_SCHEMA_OWNER_USERNAME} with login password '${WQP_SCHEMA_OWNER_PASSWORD}';
+        - rollback: drop role if exists ${WQP_SCHEMA_OWNER_USERNAME};
 
   - changeSet:
       author: mbucknell
@@ -49,14 +69,12 @@ databaseChangeLog:
             sql: select count(*) from pg_database where datname = '${BIODATA_DATABASE_NAME}';
       runInTransaction: false
       changes:
-        - sql: create database ${BIODATA_DATABASE_NAME} with owner = ${BIODATA_OWNER};
+        - sql: create database ${BIODATA_DATABASE_NAME} with owner = ${BIODATA_DB_OWNER_USERNAME};
         - rollback: drop database if exists ${BIODATA_DATABASE_NAME};
 
   - changeSet:
-      author: mbucknell
-      id: "alter.database.${BIODATA_DATABASE_NAME}.search_path"
+      author: drsteini
+      id: "alter.role.${BIODATA_SCHEMA_OWNER_USERNAME}.search_path"
       changes:
-        - sql: alter database ${BIODATA_DATABASE_NAME} set search_path = "$user", ${BIODATA_OWNER}, public;
-        - rollback: alter database ${BIODATA_DATABASE_NAME} reset search_path;
-
-
+        - sql: alter role "${BIODATA_SCHEMA_OWNER_USERNAME}" set search_path = "$user", ${BIODATA_SCHEMA_NAME}, ${WQP_SCHEMA_NAME}, public, tiger;
+        - rollback: alter role "${BIODATA_SCHEMA_OWNER_USERNAME}" reset search_path;
