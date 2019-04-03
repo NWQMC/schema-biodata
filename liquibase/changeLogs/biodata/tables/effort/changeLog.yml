@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+    - runningAs:
+        username: ${BIODATA_SCHEMA_OWNER_USERNAME}
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.effort"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: effort
+      changes:
+        - sqlFile:
+            path: effort.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists effort cascade ;
