@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+    - runningAs:
+        username: ${BIODATA_SCHEMA_OWNER_USERNAME}
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.taxonomic_result"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: taxonomic_result
+      changes:
+        - sqlFile:
+            path: taxonomicResult.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists taxonomic_result cascade;
