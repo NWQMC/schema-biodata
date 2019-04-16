@@ -32,6 +32,6 @@ create unlogged table if not exists ${BIODATA_SCHEMA_NAME}.reach
 ,establishment_method           text
 ,other_establishment_method     text
 ,review_status_code             character varying(40)
-,validation_status              character varying(1)    not null
+,validation_status              boolean    not null
 ,data_release_category          character varying(40)   not null
 ) with (fillfactor = 100);

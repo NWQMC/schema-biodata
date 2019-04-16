@@ -15,6 +15,6 @@ create unlogged table if not exists ${BIODATA_SCHEMA_NAME}.project
 ,creation_date                  timestamp(6)
 ,external_id                    text
 ,review_status_code             character varying(40)
-,validation_status              character varying(1)    not null
+,validation_status              boolean    not null
 ,data_release_category          character varying(40)   not null
 ) with (fillfactor = 100);
