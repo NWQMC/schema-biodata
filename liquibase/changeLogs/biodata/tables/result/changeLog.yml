@@ -2,7 +2,6 @@ databaseChangeLog:
   - preConditions:
     - dbms:
         type: postgresql
-
     - runningAs:
         username: ${BIODATA_SCHEMA_OWNER_USERNAME}
 
@@ -15,8 +14,9 @@ databaseChangeLog:
         - not:
           - tableExists:
               tableName: result
+              schemaName: ${BIODATA_SCHEMA_NAME}
       changes:
         - sqlFile:
             path: result.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists result cascade;
+        - rollback: drop table if exists ${BIODATA_SCHEMA_NAME}.result cascade;
